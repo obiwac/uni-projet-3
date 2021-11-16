@@ -14,3 +14,9 @@ Repo pour le troisième projet du cours de LINFO1001 à l'UCL
 - [ ] Briefing météo (en utilisant les senseurs ou internet). (Un peu obvious comme fonctionnalité supplémentaire mais bon.)
 - [ ] Système de partitions plus robuste sur la RPI (partitions importantes montées en read-only).
 - [ ] Système de plugins peut-être ?
+
+## Planning
+
+|Premier element|Deuxieme|
+|---------------|--------|
+|test           |test2   |
