@@ -25,10 +25,27 @@ L'objectif de cette mission est la création d'un assistant principalement vocal
 
 \end{enumerate}
 
-Les deux objectifs principaux de cette mission sont de la capacité de créer une liste de courses 
-
 \section{Liste des tâches}
 
-\section{}
-
+\begin{itemize}
+    \item {\underline{Tâches principales}}
+    \begin{enumerate}
+        \item {Listes de courses}
+        \begin{itemize}
+            \item {Créer, modifier, supprimer la liste + énonciation de la liste avec text-to-speech}
+        \end{itemize}
+        \item {Code de CB}
+        \begin{itemize}
+            \item {Enregistrer un code de CB, le sécuriser avec un mot de passe + énonciation du code avec text-to-speech/afficher à l'écran}
+        \end{itemize}
+    \end{enumerate}
+    \item {\underline{Tâches supplémentaires} (en constante évolution)}
+    \begin{enumerate}
+        \item Briefing météo du jour via text-to-speech
+        \item {Système de partitions plus robuste sur la RPI (partitions importantes montées en read-only)}
+        \item {CI/CD et des mises à jour OTA ?}
+        \item {Détection de chute via l'accéléromètre, compteur de +/- 10 secondes qui se déclenche, et qui, si aucune action pour l'arrêter (donc potentiellement une vraie chute) est prise, alerte tout appareil bluetooth à portée du ElderPi + alarme ? }
+    \end{enumerate}
+\end{itemize}
+Le tout, de manière \underline{vocal} (ou quasi tout).
 \end{document}
