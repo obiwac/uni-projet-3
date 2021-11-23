@@ -40,17 +40,17 @@ class Game:
 	def update(self):
 		# process events
 
+		prev_dir = self.dir
+
 		for event in self.sense.stick.get_events():
 			if event.action == "pressed":
-				prev_dir = self.dir
-
 				if event.direction == "up": self.dir = DIR_UP
 				elif event.direction == "right": self.dir = DIR_RIGHT
 				elif event.direction == "down": self.dir = DIR_DOWN
 				elif event.direction == "left": self.dir = DIR_LEFT
 
-				if prev_dir is not None and self.dir % 2 == prev_dir % 2:
-					self.dir = prev_dir
+		if prev_dir is not None and self.dir % 2 == prev_dir % 2:
+			self.dir = prev_dir
 
 		if self.dir is None:
 			return
