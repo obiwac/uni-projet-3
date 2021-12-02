@@ -7,11 +7,12 @@ Librairie de cryptographie rendue disponible pour le P3 du cours de LINFO1001.
 Attention: Cette librairie a été réalisée à des fins purement didactiques et ne peut en aucun cas être considérée comme une solution cryptographique viable pour un programme en dehors du contexte du cours LINFO1001.
 """
 import rhasspy
-class security :
-    State_normal=0
-    State_confirmation=1
-    def __init__(self,key="cle"):
-        self.__state=State_normal
+class Security :
+    __STATE_NORMAL=0
+    __STATE_CONFIRMATION=1
+    def __init__(self,rhasspy,key="cle"):
+        self.__state=Security.__STATE_NORMAL
+        self.__rhasspy = rhasspy
         self.__key= key
         self.__nbrhash= None
         self.__cdehash= None

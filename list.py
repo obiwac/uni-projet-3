@@ -5,8 +5,9 @@ class List:
 	__STATE_REM_CONFIRM = 1
 	__STATE_CLEAR_CONFIRM = 2
 
-	def __init__(self):
+	def __init__(self, rhasspy):
 		self.__state = List.__STATE_NORMAL
+		self.__rhasspy = rhasspy
 
 		try:
 			self.read()
@@ -29,19 +30,36 @@ class List:
 			self.__elements[name] = 0
 
 		if len(self.__elements) > 50:
-			print("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
+			self.__rhasspy.text_to_speech("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
 		self.__elements[name] += count
 		self.write() # save after adding each element, just in case
+
+		self.__rhasspy.text_to_speech(f"{count} {name} ajoutés à la liste des courses")
 
 	def rem(self, name):
 		if name not in self.__elements:
 			return
 
+		count = self.__elements[name]
+
 		del self.__elements[name]
+		self.write()
+
+		self.__rhasspy.text_to_speech(f"{count} {name} supprimés de la liste des courses")
+
+	def speak(self):
+		for name in self.__elements:
+			count = self.__elements[name]
+			self.__rhasspy.text_to_speech(f"{count} {name}")
 
 	def clear(self):
+		self.count = len(self.__elements)
+
 		self.__elements = {}
+		self.write()
+
+		self.__rhasspy.text_to_speech(f"{count} éléments supprimés de la liste des courses")
 
 	def __process_normal(self, action, params):
 		if action == "List_add":
@@ -53,6 +71,9 @@ class List:
 
 		elif action == "List_clear":
 			self.clear()
+
+		elif action == "List_speak":
+			self.speak()
 
 	def __process_rem_confirm(self, action, params):
 		if action == "Confirm":
