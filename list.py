@@ -1,7 +1,13 @@
 PATH = "~/user_data/shopping_list"
 
 class List:
+	__STATE_NORMAL = 0
+	__STATE_REM_CONFIRM = 1
+	__STATE_CLEAR_CONFIRM = 2
+
 	def __init__(self):
+		self.__state = List.__STATE_NORMAL
+
 		try:
 			self.read()
 
@@ -37,20 +43,32 @@ class List:
 	def clear(self):
 		self.__elements = {}
 
-	def process(self, action, params):
-		if action == "Add":
+	def __process_normal(self, action, params):
+		if action == "List_add":
 			self.add(params["item"], params["count"])
-			return True
 
-		elif action == "Remove":
-			self.rem(params["item"])
-			return True
+		elif action == "List_rem":
+			self.__state = List.__STATE_REM_CONFIRM
+			self.__params = params.copy()
 
-		elif action == "Clear":
+		elif action == "List_clear":
 			self.clear()
-			return True
 
-		return False
+	def __process_rem_confirm(self, action, params):
+		if action == "Confirm":
+			self.rem(params["item"])
+
+		self.__state = List.__STATE_NORMAL
+
+	def __process_clear_confirm(self, action, params):
+		if action == "Confirm":
+			self.clear()
+
+		self.__state = List.__STATE_NORMAL
+
+	def process(self, action, params):
+		funcs = (self.__process_normal, self.__process_rem_confirm, self.__process_clear_config)
+		funcs[self.__state](action, params)
 
 	def read(self):
 		self.clear()
