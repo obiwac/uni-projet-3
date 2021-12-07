@@ -16,7 +16,8 @@ class Module:
 		self.__rhasspy.text_to_speech(msg)
 
 	def await_speech(self):
-		return self.__rhasspy.speech_to_intent()
+		intent = self.__rhasspy.speech_to_intent()
+		return intent["name"], intent["params"]
 
 	# utility functions
 
@@ -24,8 +25,7 @@ class Module:
 		self.say(msg)
 
 		while True:
-			intent = self.await_speech()
-			action = intent["name"]
+			action, _ = self.await_speech()
 
 			if action == "Confirm":
 				return True

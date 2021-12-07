@@ -27,7 +27,7 @@ class List(module.Module):
 		if item not in self.__elements:
 			self.__elements[item] = 0
 
-		if len(self.__elements) > 50:
+		if len(self.__elements) > 4:
 			self.say("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
 		self.__elements[item] += count
