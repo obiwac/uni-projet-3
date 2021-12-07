@@ -1,7 +1,7 @@
-import list
-import flashlight
+import module.list
+import module.flashlight
 
-shopping_list = list.List()
+shopping_list = list.List(rhasspy)
 flashy_boi = flashlight.Flashlight()
 
 import rhasspy
