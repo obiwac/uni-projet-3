@@ -1,6 +1,12 @@
+import module
+from sense_has import SenseHat
 
-class thermometre():
-    def __init__(self):
+sense = SenseHat()
+
+class Thermometer(Module):
+    def __init__(self, rhasspy):
+		super().__init__(rhasspy)
+
         X =(255, 255, 255) #blanc
         B =(0, 0, 255) #bleu
         O =(0,0,0) #nothing
@@ -27,17 +33,16 @@ class thermometre():
         ]
     
     def temperature_from_pressure(self):
-        sense = SenseHat()
         self.temp = sense.get_temperature_from_pressure()
-        text_to_speech("Temperature: %s C" % temp)
+        self.say(f"Temperature: {temp:02f} C")
         
     def rappel_boire(self):
         
         if sense.get_temperature_from_pressure() >= 25 :
-            text_to_speech("Rappel : forte chaleur, pensez à boire")
+            self.say("Rappel : forte chaleur, pensez à boire")
             sense.set_pixels(self.boire_eau)
         elif sense.get_temperature_rom_pressure() <= 0 :
-            text_to_speech("Rappel : faible chaleur, buvez quelque chose de chaud")
+            self.say("Rappel : faible chaleur, pissez")
             sense.set_pixels(self.boire_chaud)
         
         
