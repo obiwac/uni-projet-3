@@ -1,8 +1,6 @@
 import module
 
-PATH = "~/user_data/shopping_list"
-
-class List_module(Module):
+class List(module.Module):
 	def __init__(self, rhasspy):
 		super().__init__(rhasspy)
 
@@ -30,17 +28,18 @@ class List_module(Module):
 			self.__elements[item] = 0
 
 		if len(self.__elements) > 50:
-			self.__rhasspy.text_to_speech("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
+			self.say("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
 		self.__elements[item] += count
 		self.write() # save after adding each element, just in case
 
-		self.__rhasspy.text_to_speech(f"{count} {item} ajoutés à la liste des courses")
+		self.say(f"{count} {item} ajoutés à la liste des courses")
 
 	def rem(self, params):
 		item = params["item"]
 
 		if item not in self.__elements:
+			self.say(f"Vous n'avez pas de {item} dans votre liste des courses")
 			return
 
 		count = self.__elements[item]
@@ -51,26 +50,29 @@ class List_module(Module):
 		del self.__elements[item]
 		self.write()
 
-		self.__rhasspy.text_to_speech(f"{count} {item} supprimés de la liste des courses")
+		self.say(f"{count} {item} supprimés de la liste des courses")
 
 	def speak(self, params):
+		if not self.__elements:
+			self.say("Vous n'avez aucun élément dans votre liste des courses")
+
 		for item in self.__elements:
 			count = self.__elements[item]
-			self.__rhasspy.text_to_speech(f"{count} {item}")
+			self.say(f"{count} {item}")
 
 	def __clear(self):
 		self.__elements = {}
 		self.write()
 
 	def clear(self, params):
-		self.count = len(self.__elements)
+		count = len(self.__elements)
 
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} éléments de la liste des courses?"):
 			return
 
 		self.__clear()
 
-		self.__rhasspy.text_to_speech(f"{count} éléments supprimés de la liste des courses")
+		self.say(f"{count} éléments supprimés de la liste des courses")
 
 	def process(self, action, params):
 		exported = {
@@ -84,15 +86,12 @@ class List_module(Module):
 			exported[action](params)
 
 	def read(self):
+		lines = self.read_user_data("shopping_list")
 		self.__clear()
 
-		with open(PATH, "r") as f:
-			lines = f.readlines()
-
-			for line in lines:
-				item, count = line.split()
-				self.__elements[item] = count
+		for line in lines:
+			item, count = line.split()
+			self.__elements[item] = count
 
 	def write(self):
-		with open(PATH, "w") as f:
-			f.write(str(self))
+		self.write_user_data("shopping_list", str(self))

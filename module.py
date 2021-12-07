@@ -1,6 +1,8 @@
 # a module is an individual part of the program (e.g. one module could be the shopping list, the other could be the flashlight)
 # the Module class is what all modules inherit from, and provides basic functionality common to all modules
 
+USER_DATA_PATH = "/home/pi/user_data/"
+
 class Module:
 	def __init__(self, rhasspy = None): # default value of None because not all modules require Rhasspy
 		self.__rhasspy = rhasspy
@@ -31,3 +33,13 @@ class Module:
 			if action == "Cancel":
 				self.say("Annulation de l'opération")
 				return False
+
+	def read_user_data(self, file):
+		with open(f"{USER_DATA_PATH}{file}", "r") as f:
+			return f.readlines()
+
+	def write_user_data(self, file, data):
+		# open with 'w+' mode to create file if it doesn't already exist
+
+		with open(f"{USER_DATA_PATH}{file}", "w+") as f:
+			f.write(data)

@@ -1,14 +1,14 @@
-import module.list
-import module.flashlight
-
-shopping_list = list.List(rhasspy)
-flashy_boi = flashlight.Flashlight()
-
 import rhasspy
-rhasspy.train_intent_files("sentences.ini")
+#rhasspy.train_intent_files("sentences.ini")
+
+import modules
+
+shopping_list = modules.list.List(rhasspy)
+flashy_boi = modules.flashlight.Flashlight()
 
 while True:
 	intent = rhasspy.speech_to_intent()
+	print(intent)
 
 	action = intent["name"]
 	params = intent["variables"]

@@ -1,16 +1,17 @@
+import module
 from sense_hat import SenseHat
 
 
 s = SenseHat()
 
-class Flashlight(Module):
+class Flashlight(module.Module):
     def process(self, action):
         if action == "Flashlight_on":
             self.turn_on()
         elif action == "Flashlight_off":
             self.turn_off()
         
-    def turn_on():
+    def turn_on(self):
         O = [255, 255, 255]  # White
         led_status = [
         O, O, O, O, O, O, O, O,
@@ -24,7 +25,7 @@ class Flashlight(Module):
         ]
         s.set_pixels(led_status)
         
-    def turn_off():
+    def turn_off(self):
         a = [0,0,0]
         led_status = [
         a, a, a, a, a, a, a, a,
