@@ -2,7 +2,7 @@
 # the Module class is what all modules inherit from, and provides basic functionality common to all modules
 
 class Module:
-	def __init__(self, rhasspy):
+	def __init__(self, rhasspy = None): # default value of None because not all modules require Rhasspy
 		self.__rhasspy = rhasspy
 
 	def __str__(self):

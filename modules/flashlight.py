@@ -3,8 +3,7 @@ from sense_hat import SenseHat
 
 s = SenseHat()
 
-class Flashlight:
-
+class Flashlight(Module):
     def process(self, action):
         if action == "Flashlight_on":
             self.turn_on()
