@@ -1,9 +1,9 @@
 import list
 
-shopping_list = list.List()
-
 import rhasspy
 rhasspy.train_intent_files("sentences.ini")
+
+shopping_list = list.List(rhasspy)
 
 while True:
 	intent = rhasspy.speech_to_intent()

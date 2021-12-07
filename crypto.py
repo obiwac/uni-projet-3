@@ -10,7 +10,7 @@ import rhasspy
 class Security :
     __STATE_NORMAL=0
     __STATE_CONFIRMATION=1
-    def __init__(self,rhasspy,key="cle"):
+    def __init__(self,rhasspy, key="cle"):
         self.__state=Security.__STATE_NORMAL
         self.__rhasspy = rhasspy
         self.__key= key
@@ -95,16 +95,16 @@ class Security :
         if  self.__nbrhash== None:
             __nbr= nbr
             if not __nbr.isnumeric():
-                rhasspy.text_to_speech("votre numero est vide ou ne contient pas uniquement des chiffres")
+                self.__rhasspy.text_to_speech("votre numero est vide ou ne contient pas uniquement des chiffres")
             self.__nbrhash=self.hashing(self.encode(self.__key, __nbr))
         else:
             __enter= enter
             if not __enter.isnumeric():
-                rhasspy.text_to_speech("votre numero est vide ou ne contient pas que des chiffres")
+                self.__rhasspy.text_to_speech("votre numero est vide ou ne contient pas que des chiffres")
             else:    
                 __enterhash=self.hashing(self.encode(self.__key, __enter))
                 if self.__nbrhash != enterhash:
-                    rhasspy.text_to_speech("numero incorrecte")
+                    self.__rhasspy.text_to_speech("numero incorrecte")
                 else :
                     return True
 
@@ -112,17 +112,17 @@ class Security :
         if self.__cdehash== None:
             __cde= cde
             if not __cde.isalpha():
-                rhasspy.text_to_speech("votre code est vide ou ne contient pas uniquement des lettres")
+                self.__rhasspy.text_to_speech("votre code est vide ou ne contient pas uniquement des lettres")
             else:
                 self.__cdehash=self.hashing(self.encode(self.__key, __cde))
         else:
             __enter= enter
             if not __enter.isalpha():
-                rhasspy.text_to_speech("votre code est vide ou ne contient pas uniquement des lettres")
+                self.__rhasspy.text_to_speech("votre code est vide ou ne contient pas uniquement des lettres")
             else :    
                 __enterhash=self.hashing(self.encode(self.__key, __enter))
                 if __enterhash != self.__nbrhash:
-                    rhasspy.text_to_speech("code incorrect")
+                    self.__rhasspy.text_to_speech("code incorrect")
                 else :
                     return True
 
@@ -130,11 +130,11 @@ class Security :
         """supprime le hasking du numero
         """
         if self.__state==State_normal:
-            rhasspy.text_to_speech("voullez-vous vraoment supprimer le numero")
+            self.__rhasspy.text_to_speech("voullez-vous vraoment supprimer le numero")
             self.__state=State_confirmation
         elif self.__state==State_confirmation:
             if action=="confirmer":
-                rhasspy.text_to_speech("numero supprimé")
+                self.__rhasspy.text_to_speech("numero supprimé")
                 self.__nbrhash=None
             else:
                 self.__state=State_normal
@@ -143,7 +143,7 @@ class Security :
         """supprime le hashing du code
         """
         if self.__state==State_normal:
-            rhasspy.text_to_speech("voullez-vous vraoment supprimer le code")
+            self.__rhasspy.text_to_speech("voullez-vous vraoment supprimer le code")
             self.__state=State_confirmation
         elif self.__state==State_confirmation:
             if action=="confirmer":
