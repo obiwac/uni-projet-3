@@ -5,6 +5,7 @@ import modules
 
 shopping_list = modules.list.List(rhasspy)
 flashy_boi = modules.flashlight.Flashlight()
+the_time = modules.time.Time(rhasspy)
 
 while True:
 	intent = rhasspy.speech_to_intent()
