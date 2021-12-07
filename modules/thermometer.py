@@ -1,5 +1,5 @@
 import module
-from sense_has import SenseHat
+from sense_hat import SenseHat
 
 sense = SenseHat()
 
@@ -34,15 +34,14 @@ class Thermometer(Module):
     
     def temperature_from_pressure(self):
         self.temp = sense.get_temperature_from_pressure()
-        self.say(f"Temperature: {temp:02f} C")
-        
-    def rappel_boire(self):
-        
-        if sense.get_temperature_from_pressure() >= 25 :
-            self.say("Rappel : forte chaleur, pensez à boire")
+        self.say(f"Il fait {temp:02f} degrés celsius")
+        if self.temp >= 25 :
+            self.say("Il fait chaud, pensez à boire")
             sense.set_pixels(self.boire_eau)
-        elif sense.get_temperature_rom_pressure() <= 0 :
-            self.say("Rappel : faible chaleur, pissez")
+        elif self.temp <= 0 :
+            self.say("Il fait froid, pissez")
             sense.set_pixels(self.boire_chaud)
-        
-        
+
+	def process(self, action, params):
+		if action == "Tell_temperature":
+			self.temperature_from_pressure()
