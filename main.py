@@ -15,3 +15,4 @@ while True:
 
 	shopping_list.process(action, params)
 	flashy_boi.process(action)
+	the_time.process(action)
