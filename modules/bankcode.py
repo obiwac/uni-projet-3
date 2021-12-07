@@ -16,30 +16,43 @@ class Bankcode(module.Module):
 			self.__hashed_passcode = None
 
 	def read(self):
-		self.__encrypted_bankcode, self.__hashed_passcode = read_user_data("bankcode")
+		data = self.read_user_data("bankcode")
+
+		if len(data) == 2:
+			self.__encrypted_bankcode, self.__hashed_passcode = data
+			return
+
+		raise FileNotFoundError("Invalid bankcode file")
 
 	def write(self):
-		write_user_data("bankcode", "\n".join((self.__encrypted_bankcode, self.__hashed_passcode)))
+		if self.__hashed_passcode is None or self.__encrypted_bankcode is None:
+			return
+
+		self.write_user_data("bankcode", "\n".join((self.__encrypted_bankcode, self.__hashed_passcode)))
 
 	def await_bankcode(self):
 		while True:
-			action, params = self.intent()
+			action, params = self.await_speech()
 
 			if action == "Bankcode":
-				self.__bankcode = sum(params[str(i)] for i in "abcd")
+				self.__bankcode = " ".join(str(params[i]) for i in "abcd")
 				break
 
 	def await_passcode(self):
 		while True:
-			action, params = self.intent()
+			action, params = self.await_speech()
 
 			if action == "Passcode":
-				self.__passcode = sum(params[str(i)] for i in "abcd")
+				self.__passcode = " ".join(str(params[i]) for i in "abcd")
 				break
 
 	def verify_passcode(self):
 		if self.__passcode:
 			return True
+
+		if self.__hashed_passcode is None:
+			self.say("Vous n'avez pas encore défini de mot de passe")
+			return False
 
 		self.say("Enoncez votre mot de passe")
 		self.await_passcode()
@@ -51,8 +64,8 @@ class Bankcode(module.Module):
 		self.__bankcode = crypto.decode(self.__passcode, self.__encrypted_bankcode)
 		return True
 
-	def recall_bankcode(self, action, params):
-		if not verify_passcode(self):
+	def recall_bankcode(self, params):
+		if not self.verify_passcode():
 			return
 
 		if self.__bankcode is None:
@@ -61,8 +74,8 @@ class Bankcode(module.Module):
 
 		self.say(f"Votre code bancaire est {self.__bankcode}")
 
-	def set_bankcode(self, action, params):
-		if not verify_passcode(self):
+	def set_bankcode(self, params):
+		if not self.verify_passcode():
 			return
 
 		if self.__bankcode is not None:
@@ -75,10 +88,10 @@ class Bankcode(module.Module):
 		self.__encrypted_bankcode = crypto.encode(self.__passcode, self.__bankcode)
 		
 		self.write()
-		self.say("Votre code bancaire a bien été enregistré")
+		self.say(f"Votre code bancaire, {self.__bankcode}, a bien été enregistré")
 
-	def set_passcode(self, action, params):
-		if not verify_passcode(self):
+	def set_passcode(self, params):
+		if self.__passcode is not None and not self.verify_passcode():
 			return
 
 		if self.__passcode is not None:
@@ -91,13 +104,13 @@ class Bankcode(module.Module):
 		self.__hashed_passcode = crypto.hashing(self.__passcode)
 
 		self.write()
-		self.say("Votre mot de passe a bien été enregistré")
+		self.say(f"Votre mot de passe, {self.__passcode}, a bien été enregistré")
 
 	def process(self, action, params):
 		exported = {
-			"Bankcode_recall": recall_bankcode,
-			"Bankcode_set": set_bankcode,
-			"Passcode_set": set_passcode,
+			"Bankcode_recall": self.recall_bankcode,
+			"Bankcode_set": self.set_bankcode,
+			"Passcode_set": self.set_passcode,
 		}
 
 		if action in exported:

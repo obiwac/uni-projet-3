@@ -17,7 +17,7 @@ class Module:
 
 	def await_speech(self):
 		intent = self.__rhasspy.speech_to_intent()
-		return intent["name"], intent["params"]
+		return intent["name"], intent["variables"]
 
 	# utility functions
 

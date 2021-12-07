@@ -7,7 +7,7 @@ shopping_list = modules.list.List(rhasspy)
 flashy_boi = modules.flashlight.Flashlight()
 the_time = modules.time.Time(rhasspy)
 thermometer = modules.thermometer.Thermometer(rhasspy)
-bank_code = modules.bank_code.Bank_code(rhasspy)
+bankcode = modules.bankcode.Bankcode(rhasspy)
 
 while True:
 	intent = rhasspy.speech_to_intent()
@@ -19,5 +19,5 @@ while True:
 	shopping_list.process(action, params)
 	flashy_boi.process(action)
 	the_time.process(action)
-	thermometer.process(action)
-	bank_code.process(action)
+	thermometer.process(action, params)
+	bankcode.process(action, params)

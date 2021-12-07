@@ -7,7 +7,7 @@ Librairie de cryptographie rendue disponible pour le P3 du cours de LINFO1001.
 Attention: Cette librairie a été réalisée à des fins purement didactiques et ne peut en aucun cas être considérée comme une solution cryptographique viable pour un programme en dehors du contexte du cours LINFO1001.
 """
 
-def encode(self,key, plain_text):
+def encode(key, plain_text):
 	"""
 	Chiffre un texte en utilisant une clé de chiffrement.
 	Les deux arguments sont fournis sous la forme d'une chaine de caractères.
@@ -25,7 +25,7 @@ def encode(self,key, plain_text):
 		enc.append(enc_c)
 	return "".join(enc)
 
-def decode(self,key, cipher_text):
+def decode(key, cipher_text):
 	"""
 	Déchiffre le texte en utilisant la clé de déchiffrement.
 	Les deux arguments sont fournis sous la forme d'une chaine de caractères.
@@ -43,7 +43,7 @@ def decode(self,key, cipher_text):
 		dec.append(dec_c)
 	return str("".join(dec))
 
-def hashing(self,string):
+def hashing(string):
 	"""
 	Hachage d'une chaîne de caractères fournie en paramètre.
 	Le résultat est une chaîne de caractères.

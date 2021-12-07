@@ -11,7 +11,7 @@ class Flashlight(module.Module):
             self.turn_off()
         
     def turn_on(self):
-        s.set_pixels([[[[255] * 3] * 8] * 8])
+        s.set_pixels([[255] * 3] * 64)
         
     def turn_off(self):
-        s.set_pixels([[[[0] * 3] * 8] * 8])
+        s.set_pixels([[0] * 3] * 64)
