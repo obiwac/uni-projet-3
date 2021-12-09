@@ -2,8 +2,8 @@ import crypto
 import module
 
 class Bankcode(module.Module):
-	def __init__(self, rhasspy):
-		super().__init__(rhasspy)
+	def __init__(self):
+		super().__init__()
 
 		self.__bankcode = None
 		self.__passcode = None

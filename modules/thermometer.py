@@ -5,8 +5,8 @@ from sense_hat import SenseHat
 sense = SenseHat()
 
 class Thermometer(module.Module):
-	def __init__(self, rhasspy):
-		super().__init__(rhasspy)
+	def __init__(self):
+		super().__init__()
 
 		X =(255, 255, 255) #blanc
 		B =(0, 0, 255) #bleu
@@ -34,13 +34,13 @@ class Thermometer(module.Module):
 		]
 	
 	def temperature_from_pressure(self):
-		temp = sense.get_temperature_from_pressure()
+		temp = self.sense.get_temperature_from_pressure()
 		self.say(f"Il fait {round(temp)} degrés celsius")
 		if temp >= 25 :
-			sense.set_pixels(self.boire_eau)
+			self.sense.set_pixels(self.boire_eau)
 			self.say("Il fait chaud, pensez à boire")
 		elif temp <= 0 :
-			sense.set_pixels(self.boire_chaud)
+			self.sense.set_pixels(self.boire_chaud)
 			self.say("Il fait froid, buvez quelque chose de chaud")
 
 	def process(self, action, params):

@@ -1,13 +1,19 @@
 import rhasspy
+import sense_hat
+
 #rhasspy.train_intent_files("sentences.ini")
 
+import module
 import modules
 
-shopping_list = modules.list.List(rhasspy)
+module.Module.rhasspy = rhasspy
+module.Module.sense = sense_hat.SenseHat()
+
+shopping_list = modules.list.List()
 flashy_boi = modules.flashlight.Flashlight()
-the_time = modules.time.Time(rhasspy)
-thermometer = modules.thermometer.Thermometer(rhasspy)
-bankcode = modules.bankcode.Bankcode(rhasspy)
+the_time = modules.time.Time()
+thermometer = modules.thermometer.Thermometer()
+bankcode = modules.bankcode.Bankcode()
 
 while True:
 	intent = rhasspy.speech_to_intent()

@@ -1,8 +1,8 @@
 import module
 
 class List(module.Module):
-	def __init__(self, rhasspy):
-		super().__init__(rhasspy)
+	def __init__(self):
+		super().__init__()
 
 		try:
 			self.read()

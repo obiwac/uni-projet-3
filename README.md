@@ -13,3 +13,11 @@ Repo pour le troisième projet du cours de LINFO1001 à l'UCL
 
 - [ ] Briefing météo (en utilisant les senseurs ou internet). (Un peu obvious comme fonctionnalité supplémentaire mais bon.)
 - [ ] Acceleromètre qui détecte si la personne âgée est tombée et notifie automatiquement une personne de confiance (companion app sur Android ?).
+
+## Presentation
+
+- Introduction & démographie
+- Fonctionalités de base (demo liste des courses)
+- Sécurité (donc demo carte bancaire)
+- One more thing: flashlight, time, temperature, weather, detection de chutes, jeu snake pour les petits-enfants chiants
+- Conclusion
