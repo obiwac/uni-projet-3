@@ -28,12 +28,14 @@ class Module:
 		self.rhasspy.text_to_speech(msg)
 
 	def await_speech(self):
+		graphics.microphone()
 		intent = self.rhasspy.speech_to_intent()
 		return intent["name"], intent["variables"]
 
 	# utility functions
 
 	def confirm(self, msg = "Veuillez confirmer l'action"):
+		graphics.question()
 		self.say(msg)
 
 		while True:
@@ -43,6 +45,7 @@ class Module:
 				return True
 
 			if action == "Cancel":
+				graphics.cancel()
 				self.say("Annulation de l'opération")
 				return False
 

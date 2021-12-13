@@ -87,6 +87,15 @@ def text(string):
 
 # preset animations
 
+def cancel():
+	print("TODO cancel animation")
+
+def question():
+	print("TODO question mark animation")
+
+def microphone():
+	print("TODO microphone animation")
+
 def error():
 	print("TODO error animation")
 
