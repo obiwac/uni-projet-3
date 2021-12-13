@@ -7,6 +7,8 @@ COMPONENTS = 4
 
 class Image:
 	def __init__(self, path):
+		path = f"images/{path}.bmp"
+
 		with open(path) as f:
 			f.seek(18) # skip the beginning of the BMP header because we don't care about it
 
@@ -18,7 +20,7 @@ class Image:
 
 			f.seek(28) # skip the rest of the header because we already know too much... it's already too late... it's coming for us, it's no use running, you can't hide...
 
-			self.__pixels = []
+			self.pixels = []
 
 			for y in range(self.__height):
 				row = []
@@ -27,7 +29,4 @@ class Image:
 					f.read(1) # don't care about the alpha channel
 					row.append([f.read(1) for _ in range(3)]) # we only care about the last 3 components
 
-				self.__pixels.append(row)
-
-	def get_pixels(self):
-		return self.__pixels
+				self.pixels.append(row)
