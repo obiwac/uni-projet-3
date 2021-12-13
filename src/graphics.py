@@ -69,7 +69,7 @@ def image(path, crossed = False):
 	if crossed:
 		print("TODO graphics image crossed")
 
-	im= Image(path)
+	im = Image(path)
 	fb = im.pixels
 	flip()
 
@@ -81,7 +81,7 @@ def text(string):
 	for char in string:
 		for y in range(8):
 			row = buf[y]
-			row.extend(map(lambda colour: (255,) * 3 if colour[0] else (0,) * 3, font[char].pixels[y]))
+			row.extend(map(lambda x: (x[1],) * 3, font[char].pixels[y]))
 
 	# scroll text
 
@@ -92,25 +92,7 @@ def text(string):
 		time.sleep(0.1)
 		flip()
 
-# preset animations
-
-def cancel():
-	print("TODO cancel animation")
-
-def question():
-	print("TODO question mark animation")
-
-def microphone():
-	print("TODO microphone animation")
-
-def error():
-	print("TODO error animation")
-
-def success():
-	print("TODO success animation")
-
-def lock():
-	print("TODO lock animation")
-
-def unlock():
-	print("TODO unlock animation")
+def animation(name):
+	for i in range(4):
+		image(f"{name}/{i}")
+		time.sleep(0.2)

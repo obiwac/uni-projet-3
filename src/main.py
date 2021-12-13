@@ -16,6 +16,7 @@ thermometer = modules.thermometer.Thermometer()
 bankcode = modules.bankcode.Bankcode()
 
 while True:
+	graphics.animation("mic")
 	intent = rhasspy.speech_to_intent()
 	print(intent)
 

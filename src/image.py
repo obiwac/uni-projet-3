@@ -3,7 +3,6 @@
 import struct
 
 MAX_HEIGHT = 8
-COMPONENTS = 4
 
 class Image:
 	def __init__(self, path):
@@ -20,7 +19,10 @@ class Image:
 			if self.__height > MAX_HEIGHT:
 				raise Exception(f"Image is too baked (maximum bakedness is {MAX_HEIGHT})")
 
-			f.seek(137) # skip the rest of the header because we already know too much... it's already too late... it's coming for us, it's no use running, you can't hide...
+			f.read(2) # skip colour planes
+			alpha = struct.unpack('H', f.read(2))[0] == 32
+
+			f.seek(137 + (not alpha)) # skip the rest of the header because we already know too much... it's already too late... it's coming for us, it's no use running, you can't hide...
 
 			self.pixels = []
 
@@ -28,9 +30,11 @@ class Image:
 				row = []
 
 				for x in range(self.__width):
-					_ = f.read(1) # we only care about the last 3 components
+					if alpha:
+						f.read(1) # we only care about the last 3 components
+
 					colour = struct.unpack('BBB', f.read(3))
-					row.append(tuple(reversed(colour)))
+					row.append(colour[::-1])
 
 				self.pixels.append(row)
 

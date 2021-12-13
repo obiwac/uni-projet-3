@@ -5,12 +5,14 @@ class List(module.Module):
 	def __init__(self):
 		super().__init__()
 
+		# dictionnary where the keys are the object item, and the values are their count
+		self.__elements = {}
+
 		try:
 			self.read()
 
 		except FileNotFoundError:
-			# dictionnary where the keys are the object item, and the values are their count
-			self.__elements = {}
+			pass
 
 	def __str__(self):
 		s = ""
@@ -42,7 +44,7 @@ class List(module.Module):
 		item = params["item"]
 
 		if item not in self.__elements:
-			graphics.error()
+			graphics.animation("error")
 			self.say(f"Vous n'avez pas de {item} dans votre liste des courses")
 			return
 
@@ -60,7 +62,7 @@ class List(module.Module):
 
 	def speak(self, params):
 		if not self.__elements:
-			graphics.error()
+			graphics.animation("error")
 			self.say("Vous n'avez aucun élément dans votre liste des courses")
 
 		for item in self.__elements:
@@ -81,7 +83,7 @@ class List(module.Module):
 
 		self.__clear()
 
-		graphics.success()
+		graphics.animation("success")
 		self.say(f"{count} éléments supprimés de la liste des courses")
 
 	def process(self, action, params):
@@ -97,7 +99,6 @@ class List(module.Module):
 
 	def read(self):
 		lines = self.read_user_data("shopping_list")
-		self.__clear()
 
 		for line in lines:
 			item, count = line.split()
