@@ -1,3 +1,4 @@
+import graphics
 import module
 
 class List(module.Module):
@@ -30,6 +31,8 @@ class List(module.Module):
 		if len(self.__elements) > 4:
 			self.say("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
+		graphics.image(image)
+
 		self.__elements[item] += count
 		self.write() # save after adding each element, just in case
 
@@ -39,6 +42,7 @@ class List(module.Module):
 		item = params["item"]
 
 		if item not in self.__elements:
+			graphics.error()
 			self.say(f"Vous n'avez pas de {item} dans votre liste des courses")
 			return
 
@@ -47,6 +51,8 @@ class List(module.Module):
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} {item} de la liste des courses?"):
 			return
 
+		graphics.image(item, crossed = True)
+
 		del self.__elements[item]
 		self.write()
 
@@ -54,10 +60,13 @@ class List(module.Module):
 
 	def speak(self, params):
 		if not self.__elements:
+			graphics.error()
 			self.say("Vous n'avez aucun élément dans votre liste des courses")
 
 		for item in self.__elements:
 			count = self.__elements[item]
+
+			graphics.image(item)
 			self.say(f"{count} {item}")
 
 	def __clear(self):
@@ -72,6 +81,7 @@ class List(module.Module):
 
 		self.__clear()
 
+		graphics.success()
 		self.say(f"{count} éléments supprimés de la liste des courses")
 
 	def process(self, action, params):

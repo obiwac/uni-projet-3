@@ -1,3 +1,4 @@
+import graphics
 import module
 
 class Flashlight(module.Module):
@@ -13,9 +14,9 @@ class Flashlight(module.Module):
 		exported[action]()
 
     def turn_on(self):
-		self.say("Lampe torche allumée")
         self.wash(255, 255, 255)
+		self.say("Lampe torche allumée")
         
     def turn_off(self):
-		self.say("Lampe torche éteinte")
         self.wash(0, 0, 0)
+		self.say("Lampe torche éteinte")
