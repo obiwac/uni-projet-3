@@ -1,5 +1,4 @@
 import graphics
-
 import rhasspy
 
 #rhasspy.train_intent_files("sentences.ini")
@@ -8,6 +7,7 @@ import module
 import modules
 
 module.Module.rhasspy = rhasspy
+rhasspy.text_to_speech("Bonjour")
 
 shopping_list = modules.list.List()
 flashy_boi = modules.flashlight.Flashlight()

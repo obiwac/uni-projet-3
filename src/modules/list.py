@@ -17,7 +17,7 @@ class List(module.Module):
 
 		for item in self.__elements:
 			count = self.__elements[item]
-			s += f"{count} {item}\n"
+			s += f"{item} {count}\n"
 
 		return s
 
@@ -31,8 +31,7 @@ class List(module.Module):
 		if len(self.__elements) > 4:
 			self.say("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
-		graphics.text(str(count))
-		graphics.image(f"list/{image}")
+		graphics.image(f"items/{item}")
 
 		self.__elements[item] += count
 		self.write() # save after adding each element, just in case
@@ -52,7 +51,7 @@ class List(module.Module):
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} {item} de la liste des courses?"):
 			return
 
-		graphics.image(f"list/{item}", crossed = True)
+		graphics.image(f"items/{item}", crossed = True)
 
 		del self.__elements[item]
 		self.write()
@@ -67,7 +66,7 @@ class List(module.Module):
 		for item in self.__elements:
 			count = self.__elements[item]
 
-			graphics.image(item)
+			graphics.image(f"items/{item}")
 			self.say(f"{count} {item}")
 
 	def __clear(self):

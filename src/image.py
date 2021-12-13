@@ -20,7 +20,7 @@ class Image:
 			if self.__height > MAX_HEIGHT:
 				raise Exception(f"Image is too baked (maximum bakedness is {MAX_HEIGHT})")
 
-			f.seek(28) # skip the rest of the header because we already know too much... it's already too late... it's coming for us, it's no use running, you can't hide...
+			f.seek(137) # skip the rest of the header because we already know too much... it's already too late... it's coming for us, it's no use running, you can't hide...
 
 			self.pixels = []
 
@@ -28,7 +28,10 @@ class Image:
 				row = []
 
 				for x in range(self.__width):
-					f.read(1) # don't care about the alpha channel
-					row.append([f.read(1) for _ in range(3)]) # we only care about the last 3 components
+					_ = f.read(1) # we only care about the last 3 components
+					colour = struct.unpack('BBB', f.read(3))
+					row.append(tuple(reversed(colour)))
 
 				self.pixels.append(row)
+
+			self.pixels = self.pixels[::-1]

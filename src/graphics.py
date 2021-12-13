@@ -2,8 +2,10 @@
 # it uses the sense_hat module for its output, which uses a global state
 # because of this, the functions can/need to be static, so no point putting them in a class
 
-import image
+from itertools import chain
+from image import Image
 import math # for trig functions
+import time
 import sense_hat
 
 X_RES = 8
@@ -23,7 +25,7 @@ theta = 0
 font = {}
 
 for i in range(0x30, 0x3a + 1):
-	font[chr(i)] = image.Image(f"font/{hex(i)[2:]}")
+	font[chr(i)] = Image(f"font/{hex(i)[2:]}")
 
 def rotate_point(rotated_fb, c, s, x, y, colour):
 	x -= X_RES // 2
@@ -43,7 +45,7 @@ def flip():
 	rotated_fb = CLEAN()
 
 	# TODO change theta based on orientation here
-	theta += (target_theta - target) / 10
+	theta += (target_theta - theta) / 10
 
 	s = math.sin(theta)
 	c = math.cos(theta)
@@ -53,7 +55,9 @@ def flip():
 			rotate_point(rotated_fb, c, s, x, y, fb[x][y])
 			colour = fb[x][y]
 
-	self.sense.set_pixels(rotated_fb)
+	rotated_fb = fb
+
+	sense.set_pixels([*chain(*rotated_fb)])
 
 def wash(r, g, b):
 	global fb
@@ -65,8 +69,8 @@ def image(path, crossed = False):
 	if crossed:
 		print("TODO graphics image crossed")
 
-	image = image.Image(path)
-	fb = image.pixels
+	im= Image(path)
+	fb = im.pixels
 	flip()
 
 def text(string):
@@ -77,14 +81,15 @@ def text(string):
 	for char in string:
 		for y in range(8):
 			row = buf[y]
-			row.extend(font[char].pixels[y])
+			row.extend(map(lambda colour: (255,) * 3 if colour[0] else (0,) * 3, font[char].pixels[y]))
 
 	# scroll text
 
-	for x in range(len(buf[0]) - X_RES):
+	for x in range(len(buf[0]) - X_RES + 1):
 		for y, row in enumerate(buf):
 			fb[y] = row[x: x + X_RES]
 
+		time.sleep(0.1)
 		flip()
 
 # preset animations

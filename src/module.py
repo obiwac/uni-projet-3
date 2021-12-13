@@ -20,10 +20,12 @@ class Module:
 	# sugar around rhasspy
 
 	def say(self, msg):
+		print(f"Say: {msg}")
 		self.rhasspy.text_to_speech(msg)
 
 	def await_speech(self):
 		graphics.microphone()
+		print("Awaiting speech ...")
 		intent = self.rhasspy.speech_to_intent()
 		return intent["name"], intent["variables"]
 
