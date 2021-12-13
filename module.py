@@ -11,11 +11,6 @@ Y_RES = 8
 class Module:
 	rhasspy = None
 
-	# drawing attributes
-
-	fb = [[(0, 0, 0)] * X_RES] * Y_RES
-	theta = 0
-
 	def __init__(self):
 		pass
 
