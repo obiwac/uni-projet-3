@@ -4,7 +4,7 @@
 
 import image
 import math # for trig functions
-from sense_hat import SenseHat
+import sense_hat
 
 X_RES = 8
 Y_RES = 8
@@ -79,7 +79,9 @@ def text(string):
 			row = buf[y]
 			row.extend(font[char].pixels[y])
 
-	for x in range(len(buf[0]) - X_RES)
+	# scroll text
+
+	for x in range(len(buf[0]) - X_RES):
 		for y, row in enumerate(buf):
 			fb[y] = row[x: x + X_RES]
 

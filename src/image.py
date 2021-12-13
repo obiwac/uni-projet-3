@@ -9,11 +9,13 @@ class Image:
 	def __init__(self, path):
 		path = f"images/{path}.bmp"
 
-		with open(path) as f:
+		# 'rb' mode so that we can parse with 'struct'
+
+		with open(path, "rb") as f:
 			f.seek(18) # skip the beginning of the BMP header because we don't care about it
 
-			self.__width = struct.unpack('I', f.read(4))
-			self.__height = struct.unpack('I', f.read(4))
+			self.__width ,= struct.unpack('I', f.read(4))
+			self.__height ,= struct.unpack('I', f.read(4))
 
 			if self.__height > MAX_HEIGHT:
 				raise Exception(f"Image is too baked (maximum bakedness is {MAX_HEIGHT})")
