@@ -9,6 +9,8 @@ class Bankcode(module.Module):
 		self.__bankcode = None
 		self.__passcode = None
 
+		self.verified = False
+
 		try:
 			self.read()
 
@@ -44,11 +46,11 @@ class Bankcode(module.Module):
 			action, params = self.await_speech()
 
 			if action == "Passcode":
-				self.__passcode = " ".join(str(params[i]) for i in "abcd")
+				self.__passcode = " ".join(str(params[i]) for i in "abc")
 				break
 
 	def verify_passcode(self):
-		if self.__passcode:
+		if self.verified:
 			return True
 
 		if self.__hashed_passcode is None:
@@ -65,6 +67,7 @@ class Bankcode(module.Module):
 			self.say("Mot de passe incorrect. Ha.")
 			return False
 
+		self.verified = True
 		self.__bankcode = crypto.decode(self.__passcode, self.__encrypted_bankcode)
 		return True
 
@@ -79,11 +82,11 @@ class Bankcode(module.Module):
 
 		graphics.animation("unlock")
 		self.say(f"Votre code bancaire est {self.__bankcode}")
-		graphics.text(str(self.__bankcode))
+		#graphics.text(str(self.__bankcode))
 
 	def set_bankcode(self, params):
-		if not self.verify_passcode():
-			return
+		#if self.__bankcode is None and not self.verify_passcode():
+		#	return
 
 		if self.__bankcode is not None:
 			if not self.confirm("Un code bancaire est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
@@ -98,11 +101,11 @@ class Bankcode(module.Module):
 		
 		self.write()
 		self.say(f"Votre code bancaire, {self.__bankcode}, a bien été enregistré")
-		graphics.text(str(self.__bankcode))
+		#graphics.text(str(self.__bankcode))
 
 	def set_passcode(self, params):
-		if self.__passcode is not None and not self.verify_passcode():
-			return
+		#if not self.verify_passcode():
+		#	return
 
 		if self.__passcode is not None:
 			if not self.confirm("Un mot de passe est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
