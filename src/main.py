@@ -3,6 +3,8 @@ import rhasspy
 
 #rhasspy.train_intent_files("sentences.ini")
 
+# modules
+
 import module
 import modules
 
@@ -16,6 +18,10 @@ the_time = modules.time.Time()
 thermometer = modules.thermometer.Thermometer()
 bankcode = modules.bankcode.Bankcode()
 
+# games
+
+import games.snake as snake
+
 while True:
 	while "middle" not in graphics.events:
 		graphics.rainbow("smile")
@@ -26,6 +32,17 @@ while True:
 
 	action = intent["name"]
 	params = intent["variables"]
+
+	if action == "Game_snake":
+		graphics.animation("success")
+
+		game = snake.Game()
+		score = game.run()
+		
+		graphics.text(str(score))
+		rhasspy.text_to_speech(f"Vous avez obtenu un score de {score}")
+
+		continue
 
 	shopping_list.process(action, params)
 	flashy_boi.process(action)
