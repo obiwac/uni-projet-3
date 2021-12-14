@@ -20,17 +20,19 @@ class Module:
 	# sugar around rhasspy
 
 	def say(self, msg):
+		print(f"Say: {msg}")
 		self.rhasspy.text_to_speech(msg)
 
 	def await_speech(self):
-		graphics.microphone()
+		graphics.animation("mic")
+		print("Awaiting speech ...")
 		intent = self.rhasspy.speech_to_intent()
 		return intent["name"], intent["variables"]
 
 	# utility functions
 
 	def confirm(self, msg = "Veuillez confirmer l'action"):
-		graphics.question()
+		graphics.animation("question")
 		self.say(msg)
 
 		while True:
@@ -40,7 +42,7 @@ class Module:
 				return True
 
 			if action == "Cancel":
-				graphics.cancel()
+				graphics.animation("cancel")
 				self.say("Annulation de l'opération")
 				return False
 

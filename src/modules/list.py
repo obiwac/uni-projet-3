@@ -5,19 +5,21 @@ class List(module.Module):
 	def __init__(self):
 		super().__init__()
 
+		# dictionnary where the keys are the object item, and the values are their count
+		self.__elements = {}
+
 		try:
 			self.read()
 
 		except FileNotFoundError:
-			# dictionnary where the keys are the object item, and the values are their count
-			self.__elements = {}
+			pass
 
 	def __str__(self):
 		s = ""
 
 		for item in self.__elements:
 			count = self.__elements[item]
-			s += f"{count} {item}\n"
+			s += f"{item} {count}\n"
 
 		return s
 
@@ -31,8 +33,7 @@ class List(module.Module):
 		if len(self.__elements) > 4:
 			self.say("Vous avez dépassé le nombre d'éléments autorisées sur votre liste des courses pour la version de base de votre abonnement ! Veuillez payer pour l'abonnement premium...")
 
-		graphics.text(str(count))
-		graphics.image(f"list/{image}")
+		graphics.image(f"items/{item}")
 
 		self.__elements[item] += count
 		self.write() # save after adding each element, just in case
@@ -43,7 +44,7 @@ class List(module.Module):
 		item = params["item"]
 
 		if item not in self.__elements:
-			graphics.error()
+			graphics.animation("error")
 			self.say(f"Vous n'avez pas de {item} dans votre liste des courses")
 			return
 
@@ -52,22 +53,22 @@ class List(module.Module):
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} {item} de la liste des courses?"):
 			return
 
-		graphics.image(f"list/{item}", crossed = True)
+		graphics.image(f"items/{item}")
+		self.say(f"Suppression de {count} {item}")
+		graphics.image(f"items/{item}", crossed = True)
 
 		del self.__elements[item]
 		self.write()
 
-		self.say(f"{count} {item} supprimés de la liste des courses")
-
 	def speak(self, params):
 		if not self.__elements:
-			graphics.error()
+			graphics.animation("error")
 			self.say("Vous n'avez aucun élément dans votre liste des courses")
 
 		for item in self.__elements:
 			count = self.__elements[item]
 
-			graphics.image(item)
+			graphics.image(f"items/{item}")
 			self.say(f"{count} {item}")
 
 	def __clear(self):
@@ -82,7 +83,7 @@ class List(module.Module):
 
 		self.__clear()
 
-		graphics.success()
+		graphics.animation("success")
 		self.say(f"{count} éléments supprimés de la liste des courses")
 
 	def process(self, action, params):
@@ -98,11 +99,10 @@ class List(module.Module):
 
 	def read(self):
 		lines = self.read_user_data("shopping_list")
-		self.__clear()
 
 		for line in lines:
 			item, count = line.split()
-			self.__elements[item] = count
+			self.__elements[item] = int(count)
 
 	def write(self):
 		self.write_user_data("shopping_list", str(self))

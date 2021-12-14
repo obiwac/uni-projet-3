@@ -52,21 +52,20 @@ class Bankcode(module.Module):
 			return True
 
 		if self.__hashed_passcode is None:
-			graphics.error()
+			graphics.animation("error")
 			self.say("Vous n'avez pas encore défini de mot de passe")
 			return False
 
+		graphics.animation("question")
 		self.say("Enoncez votre mot de passe")
 		self.await_passcode()
 
 		if not crypto.hashing(self.__passcode) == self.__hashed_passcode:
-			graphics.lock()
+			graphics.animation("error")
 			self.say("Mot de passe incorrect. Ha.")
 			return False
 
 		self.__bankcode = crypto.decode(self.__passcode, self.__encrypted_bankcode)
-		graphics.unlock()
-
 		return True
 
 	def recall_bankcode(self, params):
@@ -74,12 +73,13 @@ class Bankcode(module.Module):
 			return
 
 		if self.__bankcode is None:
-			graphics.error()
+			graphics.animation("error")
 			self.say("Vous n'avez pas encore enregistré de code bancaire")
 			return
 
-		graphics.success()
+		graphics.animation("unlock")
 		self.say(f"Votre code bancaire est {self.__bankcode}")
+		graphics.text(str(self.__bankcode))
 
 	def set_bankcode(self, params):
 		if not self.verify_passcode():
@@ -89,14 +89,16 @@ class Bankcode(module.Module):
 			if not self.confirm("Un code bancaire est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
 				return
 
+		graphics.animation("question")
 		self.say("Énoncez votre nouveau code bancaire")
 		self.await_bankcode()
 
 		self.__encrypted_bankcode = crypto.encode(self.__passcode, self.__bankcode)
-		graphics.success()
+		graphics.animation("lock")
 		
 		self.write()
 		self.say(f"Votre code bancaire, {self.__bankcode}, a bien été enregistré")
+		graphics.text(str(self.__bankcode))
 
 	def set_passcode(self, params):
 		if self.__passcode is not None and not self.verify_passcode():
@@ -106,11 +108,12 @@ class Bankcode(module.Module):
 			if not self.confirm("Un mot de passe est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
 				return
 
+		graphics.animation("question")
 		self.say("Enoncez votre nouveau mot de passe")
 		self.await_passcode()
 
 		self.__hashed_passcode = crypto.hashing(self.__passcode)
-		graphics.success()
+		graphics.animation("lock")
 
 		self.write()
 		self.say(f"Votre mot de passe, {self.__passcode}, a bien été enregistré")
