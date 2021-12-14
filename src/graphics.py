@@ -190,7 +190,7 @@ def noise(x, y, z):
 
 	noise_x_0 = NOISE_LERP(fade_z,
 		noise_gradient(int_x_0, int_y_0, int_z_0, fract_x_0, fract_y_0, fract_z_0),
-	    noise_gradient(int_x_0, int_y_0, int_z_1, fract_x_0, fract_y_0, fract_z_1));
+		noise_gradient(int_x_0, int_y_0, int_z_1, fract_x_0, fract_y_0, fract_z_1));
 
 	noise_x_1 = NOISE_LERP(fade_z,
 		noise_gradient(int_x_0, int_y_1, int_z_0, fract_x_0, fract_y_1, fract_z_0),
@@ -200,7 +200,7 @@ def noise(x, y, z):
 
 	noise_x_0 = NOISE_LERP(fade_z,
 		noise_gradient(int_x_1, int_y_0, int_z_0, fract_x_1, fract_y_0, fract_z_0),
-	    noise_gradient(int_x_1, int_y_0, int_z_1, fract_x_1, fract_y_0, fract_z_1));
+		noise_gradient(int_x_1, int_y_0, int_z_1, fract_x_1, fract_y_0, fract_z_1));
 
 	noise_x_1 = NOISE_LERP(fade_z,
 		noise_gradient(int_x_1, int_y_1, int_z_0, fract_x_1, fract_y_1, fract_z_0),
