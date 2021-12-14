@@ -152,7 +152,7 @@ def text(string):
 def animation(name):
 	for i in range(4):
 		image(f"{name}/{i}")
-		time.sleep(0.2)
+		time.sleep(0.1)
 
 # noise code translated from C from another project of mine (the aquaBSD Installer)
 

@@ -56,6 +56,7 @@ class Bankcode(module.Module):
 			self.say("Vous n'avez pas encore défini de mot de passe")
 			return False
 
+		graphics.animation("question")
 		self.say("Enoncez votre mot de passe")
 		self.await_passcode()
 
@@ -78,6 +79,7 @@ class Bankcode(module.Module):
 
 		graphics.animation("unlock")
 		self.say(f"Votre code bancaire est {self.__bankcode}")
+		graphics.text(str(self.__bankcode))
 
 	def set_bankcode(self, params):
 		if not self.verify_passcode():
@@ -87,6 +89,7 @@ class Bankcode(module.Module):
 			if not self.confirm("Un code bancaire est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
 				return
 
+		graphics.animation("question")
 		self.say("Énoncez votre nouveau code bancaire")
 		self.await_bankcode()
 
@@ -95,6 +98,7 @@ class Bankcode(module.Module):
 		
 		self.write()
 		self.say(f"Votre code bancaire, {self.__bankcode}, a bien été enregistré")
+		graphics.text(str(self.__bankcode))
 
 	def set_passcode(self, params):
 		if self.__passcode is not None and not self.verify_passcode():
@@ -104,6 +108,7 @@ class Bankcode(module.Module):
 			if not self.confirm("Un mot de passe est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
 				return
 
+		graphics.animation("question")
 		self.say("Enoncez votre nouveau mot de passe")
 		self.await_passcode()
 

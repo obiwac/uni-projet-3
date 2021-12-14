@@ -15,9 +15,11 @@ class Flashlight(module.Module):
 			exported[action]()
 
 	def turn_on(self):
-		self.wash(255, 255, 255)
+		graphics.wash(255, 255, 255)
+		graphics.flip()
 		self.say("Lampe torche allumée")
         
 	def turn_off(self):
 		self.wash(0, 0, 0)
-		self.say("Lampe torche éteinte")
+		graphics.flip()
+		graphics.say("Lampe torche éteinte")

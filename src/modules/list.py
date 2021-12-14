@@ -102,7 +102,7 @@ class List(module.Module):
 
 		for line in lines:
 			item, count = line.split()
-			self.__elements[item] = count
+			self.__elements[item] = int(count)
 
 	def write(self):
 		self.write_user_data("shopping_list", str(self))
