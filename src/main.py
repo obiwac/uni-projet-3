@@ -16,6 +16,9 @@ thermometer = modules.thermometer.Thermometer()
 bankcode = modules.bankcode.Bankcode()
 
 while True:
+	while "middle" not in graphics.events:
+		graphics.rainbow("smile")
+
 	graphics.animation("mic")
 	intent = rhasspy.speech_to_intent()
 	print(intent)

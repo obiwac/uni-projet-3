@@ -53,12 +53,12 @@ class List(module.Module):
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} {item} de la liste des courses?"):
 			return
 
+		graphics.image(f"items/{item}")
+		self.say(f"Suppression de {count} {item}")
 		graphics.image(f"items/{item}", crossed = True)
 
 		del self.__elements[item]
 		self.write()
-
-		self.say(f"{count} {item} supprimés de la liste des courses")
 
 	def speak(self, params):
 		if not self.__elements:
