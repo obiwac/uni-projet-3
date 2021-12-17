@@ -6,6 +6,10 @@ MAX_HEIGHT = 8
 
 class Image:
 	def __init__(self, path):
+		"""
+		Load BMP image from 'path'.
+		"""
+
 		path = f"images/{path}.bmp"
 
 		# 'rb' mode so that we can parse with 'struct'
