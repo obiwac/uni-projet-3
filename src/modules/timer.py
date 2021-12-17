@@ -35,7 +35,7 @@ class Timer(module.Module):
 
 	def timer(self, params):
 		"""
-		Start a timer for 'params["seconds"]' seconds.
+		Start a timer for 'params["seconds"]' seconds starting from now.
 		Asks the user for confirmation if a timer is already active.
 		"""
 
