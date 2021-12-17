@@ -119,6 +119,8 @@ class Bankcode(module.Module):
 	def set_bankcode(self, params):
 		"""
 		Set a new bankcode.
+		Ask for confirmation if a bankcode is already set.
+		Encrypt it with the passcode and write it to user data.
 		"""
 
 		if self.__bankcode is not None and not self.verify_passcode():
@@ -142,6 +144,8 @@ class Bankcode(module.Module):
 	def set_passcode(self, params):
 		"""
 		Set a new passcode.
+		Ask for confirmation if a passcode is already set.
+		Hash it, encrypt the bankcode, and write them to user data.
 		"""
 
 		if not self.verify_passcode():
@@ -156,6 +160,8 @@ class Bankcode(module.Module):
 		self.await_passcode()
 
 		self.__hashed_passcode = crypto.hashing(self.__passcode)
+		self.__encrypted_bankcode = crypto.encode(self.__passcode, self.__bankcode)
+
 		graphics.animation("lock")
 
 		self.write()

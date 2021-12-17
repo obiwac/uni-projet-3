@@ -3,6 +3,11 @@ import module
 
 class List(module.Module):
 	def __init__(self):
+		"""
+		Read the current shopping list if it already exists.
+		If not, set the elements dictionnary to 'None' for now.
+		"""
+
 		super().__init__()
 
 		# dictionnary where the keys are the object item, and the values are their count
@@ -15,6 +20,10 @@ class List(module.Module):
 			pass
 
 	def __str__(self):
+		"""
+		Format the shopping list correctly, with each element's item name followed by its count.
+		"""
+
 		s = ""
 
 		for item in self.__elements:
@@ -24,6 +33,13 @@ class List(module.Module):
 		return s
 
 	def add(self, params):
+		"""
+		Add 'item' to the shopping list 'count' times.
+		If the key already exists in the elements dictionnary, add 'count'.
+		Otherwise, create the key and set it to 'count'.
+		Finally, write the shopping list to user data.
+		"""
+
 		item = params["item"]
 		count = params["count"]
 
@@ -41,6 +57,11 @@ class List(module.Module):
 		self.say(f"{count} {item} ajoutés à la liste des courses")
 
 	def rem(self, params):
+		"""
+		Ask user for confirmation, then remove the 'item' key from the elements dictionnary.
+		Show cool little animation, and then write the shopping list to user data.
+		"""
+
 		item = params["item"]
 
 		if item not in self.__elements:
@@ -61,6 +82,12 @@ class List(module.Module):
 		self.write()
 
 	def speak(self, params):
+		"""
+		Read out load the shopping list.
+		If there are yet no elements in it, give an error message.
+		Show images for each element spoken.
+		"""
+
 		if not self.__elements:
 			graphics.animation("error")
 			self.say("Vous n'avez aucun élément dans votre liste des courses")
@@ -72,10 +99,18 @@ class List(module.Module):
 			self.say(f"{count} {item}")
 
 	def __clear(self):
+		"""
+		Clear the shopping list and write it to user data.
+		"""
+
 		self.__elements = {}
 		self.write()
 
 	def clear(self, params):
+		"""
+		Wrapper around '__clear' which asks for confirmation to the user first.
+		"""
+
 		count = len(self.__elements)
 
 		if not self.confirm(f"Êtes-vous sûr de vouloir supprimer {count} éléments de la liste des courses?"):
@@ -87,6 +122,10 @@ class List(module.Module):
 		self.say(f"{count} éléments supprimés de la liste des courses")
 
 	def process(self, action, params):
+		"""
+		Process potential shopping list commands.
+		"""
+
 		exported = {
 			"List_add": self.add,
 			"List_rem": self.rem,
@@ -98,6 +137,10 @@ class List(module.Module):
 			exported[action](params)
 
 	def read(self):
+		"""
+		Read and parse the shopping list from the shopping list file.
+		"""
+
 		lines = self.read_user_data("shopping_list")
 
 		for line in lines:
@@ -105,4 +148,8 @@ class List(module.Module):
 			self.__elements[item] = int(count)
 
 	def write(self):
+		"""
+		Write the shopping list to the shopping list file.
+		"""
+		
 		self.write_user_data("shopping_list", str(self))
