@@ -29,6 +29,11 @@ for i in range(0x30, 0x3a + 1):
 	font[chr(i)] = Image(f"font/{hex(i)[2:]}")
 
 def rotate_point(rotated_fb, c, s, _x, _y, colour):
+	"""
+	Turn a point at position (_x, _y) around the centre of the framebuffer by (c, s).
+	Plot it on 'rotated_fb' with 'colour'
+	"""
+
 	_x -= X_RES // 2 - 0.5
 	_y -= Y_RES // 2 - 0.5
 
@@ -48,6 +53,11 @@ def rotate_point(rotated_fb, c, s, _x, _y, colour):
 		pass
 
 def __flip():
+	"""
+	Rotate the framebuffer by 'theta'.
+	Then, flip the framebuffer to the screen and wait for 1/FPS seconds.
+	"""
+
 	rotated_fb = CLEAN()
 
 	s = math.sin(theta)
@@ -63,6 +73,11 @@ def __flip():
 events = []
 
 def __flip_events():
+	"""
+	Process the joystick events.
+	Concretely, this means reorienting the screen when pressing up/down/left/right by setting 'target_theta'.
+	"""
+
 	global events, target_theta
 
 	directions = {
@@ -82,10 +97,17 @@ def __flip_events():
 				target_theta = directions[event.direction]
 
 def flip():
+	"""
+	Wrapper around '__flip'.
+	If 'theta' is not within a certain angle ('EPSILON') of 'target_theta', animate it.
+	"""
+
 	global target_theta, theta
 	__flip_events()
 
-	while abs(target_theta - theta) > math.tau / 64:
+	EPSILON = math.tau / 64
+
+	while abs(target_theta - theta) > EPSILON:
 		__flip()
 		theta += (target_theta - theta) / FPS * 10
 		__flip_events()
@@ -93,10 +115,18 @@ def flip():
 	__flip()
 
 def wash(r, g, b):
+	"""
+	Wash the framebuffer with a certain colour.
+	"""
+
 	global fb
 	fb = [[(r, g, b)] * X_RES] * Y_RES
 
 def __image(im):
+	"""
+	Render an image object to the screen.
+	"""
+
 	global fb
 	fb = im.pixels
 	flip()
@@ -105,6 +135,10 @@ import random
 from copy import deepcopy
 
 def __scramble():
+	"""
+	Execute a cool and basic little animation for "scrambling" the framebuffer (Thanos snap effect).
+	"""
+
 	global fb
 	nfb = deepcopy(fb)
 	FAC = 1.1
@@ -120,6 +154,12 @@ def __scramble():
 	fb = nfb
 
 def image(path, crossed = False):
+	"""
+	Wrapper around '__image'.
+	Load image at 'path' and render it to the screen.
+	If 'crossed' is set, follow this by a call to '__scramble'.
+	"""
+
 	global fb
 
 	im = Image(path)
@@ -131,6 +171,10 @@ def image(path, crossed = False):
 			flip()
 
 def text(string):
+	"""
+	Scroll the text stored in 'string' across the screen.
+	"""
+
 	global fb
 
 	buf = [[] for _ in range(Y_RES)]
@@ -150,6 +194,10 @@ def text(string):
 		flip()
 
 def animation(name):
+	"""
+	Load and render an animation.
+	"""
+
 	for i in range(4):
 		image(f"{name}/{i}")
 		time.sleep(0.1)
@@ -213,6 +261,10 @@ def noise(x, y, z):
 __t = 0 # time in seconds elapsed
 
 def rainbow(name):
+	"""
+	Render an image filled with a certain colour based on the above noise function.
+	"""
+
 	global fb, __t
 
 	im = Image(name)
