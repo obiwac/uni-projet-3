@@ -1,7 +1,7 @@
 import graphics
 import rhasspy
 
-#rhasspy.train_intent_files("sentences.ini")
+rhasspy.train_intent_files("sentences.ini")
 
 # modules
 
@@ -17,6 +17,8 @@ flashy_boi = modules.flashlight.Flashlight()
 the_time = modules.time.Time()
 thermometer = modules.thermometer.Thermometer()
 bankcode = modules.bankcode.Bankcode()
+fall_detector = modules.fall_detector.Fall_detector()
+timer = modules.timer.Timer()
 
 # games
 
@@ -24,6 +26,8 @@ import games.snake as snake
 
 while True:
 	while "middle" not in graphics.events:
+		fall_detector.update()
+		timer.update()
 		graphics.rainbow("smile")
 
 	graphics.animation("mic")
@@ -49,3 +53,4 @@ while True:
 	the_time.process(action)
 	thermometer.process(action, params)
 	bankcode.process(action, params)
+	timer.process(action, params)

@@ -85,8 +85,8 @@ class Bankcode(module.Module):
 		#graphics.text(str(self.__bankcode))
 
 	def set_bankcode(self, params):
-		#if self.__bankcode is None and not self.verify_passcode():
-		#	return
+		if self.__bankcode is not None and not self.verify_passcode():
+			return
 
 		if self.__bankcode is not None:
 			if not self.confirm("Un code bancaire est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):
@@ -104,8 +104,8 @@ class Bankcode(module.Module):
 		#graphics.text(str(self.__bankcode))
 
 	def set_passcode(self, params):
-		#if not self.verify_passcode():
-		#	return
+		if not self.verify_passcode():
+			return
 
 		if self.__passcode is not None:
 			if not self.confirm("Un mot de passe est déjà enregistré. Êtes-vous sûr de vouloir le remplacer?"):

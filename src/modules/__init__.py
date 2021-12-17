@@ -3,7 +3,9 @@ __all__ = [
 	"flashlight",
 	"time",
 	"thermometer",
-	"bankcode"
+	"bankcode",
+	"fall_detector",
+	"timer",
 ]
 
 from . import *

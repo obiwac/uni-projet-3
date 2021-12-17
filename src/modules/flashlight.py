@@ -20,6 +20,6 @@ class Flashlight(module.Module):
 		self.say("Lampe torche allumée")
         
 	def turn_off(self):
-		self.wash(0, 0, 0)
+		graphics.wash(0, 0, 0)
 		graphics.flip()
 		graphics.say("Lampe torche éteinte")
