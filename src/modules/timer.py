@@ -8,6 +8,10 @@ class Timer(module.Module):
 		self.__active = False
 
 	def update(self):
+		"""
+		Checks if our timer is up, and, if so, reset it and notify the user.
+		"""
+
 		if not self.__active:
 			return
 		
@@ -18,6 +22,10 @@ class Timer(module.Module):
 			self.__active = False
 
 	def process(self, action, params):
+		"""
+		Process potential timer commands.
+		"""
+
 		exported = {
 			"Timer": self.timer,
 		}
@@ -26,6 +34,11 @@ class Timer(module.Module):
 			exported[action](params)
 
 	def timer(self, params):
+		"""
+		Start a timer for 'params["seconds"]' seconds.
+		Asks the user for confirmation if a timer is already active.
+		"""
+
 		if self.__active:
 			if not self.confirm(f"Un minuteur est déjà en place pour {self.__seconds} secondes. Voulez vous le remplacer?"):
 				return
