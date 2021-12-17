@@ -21,6 +21,10 @@ class Snake_bit:
 
 class Game:
 	def __init__(self):
+		"""
+		Setup the game state and the linked list of snake bits.
+		"""
+		
 		self.sense = sense_hat.SenseHat()
 
 		self.running = True
@@ -32,12 +36,20 @@ class Game:
 		self.place_apple()
 
 	def place_apple(self):
+		"""
+		Place an apple at a random position on the playing board randomly.
+		"""
+
 		self.apple_x = random.randint(0, GAME_X - 1)
 		self.apple_y = random.randint(0, GAME_Y - 1)
 
 		# TODO make sure we don't place an apple over a bit of snake
 
 	def update(self):
+		"""
+		Process events, move the snake forward, and make sure there are no intersections.
+		"""
+
 		# process events
 
 		prev_dir = self.dir
@@ -97,16 +109,25 @@ class Game:
 		self.place_apple()
 
 	def render(self):
+		"""
+		Render all the snake bits and the apple.
+		"""
+
 		self.sense.clear()
-		self.sense.set_pixel(self.apple_x, self.apple_y, 255, 0, 255)
 
 		bit = self.snake
 
 		while bit:
 			self.sense.set_pixel(bit.x, bit.y, 0, 255, 0)
 			bit = bit.next
+		
+		self.sense.set_pixel(self.apple_x, self.apple_y, 255, 0, 255)
 
 	def run(self):
+		"""
+		Start game loop.
+		"""
+
 		while self.running:
 			time.sleep(0.5 - self.score / 50)
 

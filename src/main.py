@@ -9,6 +9,7 @@ import module
 import modules
 
 module.Module.rhasspy = rhasspy
+
 graphics.animation("success")
 rhasspy.text_to_speech("Bonjour")
 
