@@ -4,6 +4,11 @@ import module
 
 class Bankcode(module.Module):
 	def __init__(self):
+		"""
+		Read the current hashed passcode and encrypted bankcode if it already exists.
+		If not, set them to 'None' for now.
+		"""
+
 		super().__init__()
 
 		self.__bankcode = None
@@ -19,6 +24,10 @@ class Bankcode(module.Module):
 			self.__hashed_passcode = None
 
 	def read(self):
+		"""
+		Read hashed passcode and encrypted bankcode from the bankcode file.
+		"""
+
 		data = self.read_user_data("bankcode")
 
 		if len(data) == 2:
@@ -28,12 +37,20 @@ class Bankcode(module.Module):
 		raise FileNotFoundError("Invalid bankcode file")
 
 	def write(self):
+		"""
+		Write hashed passcode and encrypted bankcode to the bankcode file.
+		"""
+
 		if self.__hashed_passcode is None or self.__encrypted_bankcode is None:
 			return
 
 		self.write_user_data("bankcode", "\n".join((self.__encrypted_bankcode, self.__hashed_passcode)))
 
 	def await_bankcode(self):
+		"""
+		Wait for user to input a valid bankcode.
+		"""
+
 		while True:
 			action, params = self.await_speech()
 
@@ -42,6 +59,10 @@ class Bankcode(module.Module):
 				break
 
 	def await_passcode(self):
+		"""
+		Wait for user to input a valid passcode.
+		"""
+
 		while True:
 			action, params = self.await_speech()
 
@@ -50,6 +71,13 @@ class Bankcode(module.Module):
 				break
 
 	def verify_passcode(self):
+		"""
+		Get an input passcode and compare it against the stored hash.
+		If user has already been verified, skip this and confirm verification straight away.
+		Otherwise, ask him for his password, and if it's correct, decrypt the bankcode with that passcode.
+		Returns 'True' if verified, 'False' if not.
+		"""
+
 		if self.verified:
 			return True
 
@@ -72,6 +100,10 @@ class Bankcode(module.Module):
 		return True
 
 	def recall_bankcode(self, params):
+		"""
+		Tell the user his bankcode.
+		"""
+
 		if not self.verify_passcode():
 			return
 
@@ -85,6 +117,10 @@ class Bankcode(module.Module):
 		#graphics.text(str(self.__bankcode))
 
 	def set_bankcode(self, params):
+		"""
+		Set a new bankcode.
+		"""
+
 		if self.__bankcode is not None and not self.verify_passcode():
 			return
 
@@ -104,6 +140,10 @@ class Bankcode(module.Module):
 		#graphics.text(str(self.__bankcode))
 
 	def set_passcode(self, params):
+		"""
+		Set a new passcode.
+		"""
+
 		if not self.verify_passcode():
 			return
 
@@ -122,6 +162,10 @@ class Bankcode(module.Module):
 		self.say(f"Votre mot de passe, {self.__passcode}, a bien été enregistré")
 
 	def process(self, action, params):
+		"""
+		Process potential bankcode commands.
+		"""
+
 		exported = {
 			"Bankcode_recall": self.recall_bankcode,
 			"Bankcode_set": self.set_bankcode,
