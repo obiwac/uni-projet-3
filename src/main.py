@@ -10,8 +10,12 @@ import modules
 
 module.Module.rhasspy = rhasspy
 
+# say hello to the user!
+
 graphics.animation("success")
 rhasspy.text_to_speech("Bonjour")
+
+# instantiate all our modules
 
 shopping_list = modules.list.List()
 flashy_boi = modules.flashlight.Flashlight()
@@ -25,11 +29,18 @@ timer = modules.timer.Timer()
 
 import games.snake as snake
 
+# main loop
+
 while True:
+	# while the middle button is not pressed on the joystick, continuously update the fall detector and timer
+	# also, render the smile with the kinda rainbow animation
+
 	while "middle" not in graphics.events:
 		fall_detector.update()
 		timer.update()
 		graphics.rainbow("smile")
+
+	# when user presses the joystick button, await speech
 
 	graphics.animation("mic")
 	intent = rhasspy.speech_to_intent()
@@ -37,6 +48,8 @@ while True:
 
 	action = intent["name"]
 	params = intent["variables"]
+
+	# snake game
 
 	if action == "Game_snake":
 		graphics.animation("success")
@@ -48,6 +61,8 @@ while True:
 		rhasspy.text_to_speech(f"Vous avez obtenu un score de {score}")
 
 		continue
+
+	# make each module process the action
 
 	shopping_list.process(action, params)
 	flashy_boi.process(action)
