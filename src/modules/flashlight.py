@@ -6,6 +6,10 @@ class Flashlight(module.Module):
 		super().__init__()
 
 	def process(self, action):
+		"""
+		Process potential flashlight commands.
+		"""
+
 		exported = {
 			"Flashlight_on": self.turn_on,
 			"Flashlight_off": self.turn_off
@@ -15,11 +19,19 @@ class Flashlight(module.Module):
 			exported[action]()
 
 	def turn_on(self):
+		"""
+		Turn the flashlight on.
+		"""
+
 		graphics.wash(255, 255, 255)
 		graphics.flip()
 		self.say("Lampe torche allumée")
         
 	def turn_off(self):
+		"""
+		Turn the flashlight off.
+		"""
+
 		graphics.wash(0, 0, 0)
 		graphics.flip()
 		graphics.say("Lampe torche éteinte")
