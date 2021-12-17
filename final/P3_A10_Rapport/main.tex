@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Wenneker Assignment
+% LaTeX Template
+% Version 2.0 (12/1/2019)
+%
+% This template originates from:
+% http://www.LaTeXTemplates.com
+%
+% Authors:
+% Vel (vel@LaTeXTemplates.com)
+% Frits Wenneker
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[11pt]{scrartcl} % Font size
+
+\input{structure.tex} % Include the file specifying the document structure and custom commands
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\title{	
+	\normalfont\normalsize
+	\textsc{Université Catholique de Louvain}\\ % Your university, school and/or department name(s)
+	\vspace{25pt} % Whitespace
+	\rule{\linewidth}{0.5pt}\\ % Thin top horizontal rule
+	\vspace{20pt} % Whitespace
+	{\huge SeniorThing : le nouvel assistant pour les personnes d'âges avancés}\\ % The assignment title
+	\vspace{12pt} % Whitespace
+	\rule{\linewidth}{2pt}\\ % Thick bottom horizontal rule
+	\vspace{12pt} % Whitespace
+}
+
+\author{\LARGE Groupe A.10 \\[15pt] Lucas Rota-Benabid, Aymeric Wibo, Ahmad Akta, Mathieu Garzonio} % Your name
+
+\date{\normalsize\today} % Today's date (\today) or a custom date
+
+\begin{document}
+
+\maketitle % Print the title
+
+\section{Contexte et demande}
+
+Le monde depuis le début du 21\textsuperscript{ème} siècle connait une véritable décroissance démographique générale (dans les pays anciennement développées en tout cas), i.e. un vieillissement de la population avec des nouvelles générations de plus en plus petites tailles.
+
+Dans ce contexte, l'assistance aux personnes âgées demande toujours plus en effectifs. Le gouvernement belge nous a approché avec une demande : un assistant vocal qui permettrait à certaines de ces personnes de retrouver de l'autonomie et pouvoir donc limiter la quantité de personnel nécessaire, sous le nom de code interne top secret de ``ElderPi''.
+
+\section{Fonctionnalités principales}
+
+Malheureusement, l'âge n'aide pas la mémoire, et c'est pour cela que bon nombre de ces seniors oublient des informations, parfois importantes, comme le code de leur CB (carte bancaire) ou ce qu'ils doivent acheter quand ils font leurs courses, par exemple.
+
+Nos deux fonctionnalités principales sont donc des fonctionnalités de mémorisation, plus spécifiquement:
+\begin{itemize}
+    \item Une fonctionnalité permettant de créer une liste de course, y ajouter des éléments (avec une limite de 50 aliments sans abonnement prémium), les enlever, et puis de les citer si l'utilisateur le souhaite ;
+    \item Une fonctionnalité permettant d'enregistrer un code de CB de 4 chiffres et le sécuriser avec un mot de passe composé de 3 aliments, avec la possibilité de changer le mot de passe et le code ou de les supprimer.
+\end{itemize}
+
+Pour les deux fonctionnalités, les données sont enregistrées sur l'assistant, donc en cas d'arrêt imprévu de ce dernier, aucune information ne sera perdue.
+
+Le code de CB est encodé par chiffrage est le mot de passe haché, et empêche donc tout intrus tiers d'accéder au code sans y dédier un effort très important de décodage.
+En effet, les algorithmes de chiffrage que nous utilisons sont des algorithmes de dernier cri développés par l'UCL.
+
+L'assistant étant vocal, la navigation et toutes les fonctionnalités y sont uniquement accessibles de cette façon-là.
+Il suffit d'appuyer sur le joystick pour que l'assistant vous écoute.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\columnwidth]{lock.png}
+	\caption{Icône affichée lorsqu'on entre le bon mot de passe}
+\end{figure}
+
+\section{Fonctionnalités supplémentaires}
+
+En plus des fonctionnalités principales, nous avons pensé à ajouter des fonctionnalités supplémentaires :
+\begin{itemize}
+    \item Une lampe torche ;
+    \item Un minuteur ;
+    \item Un jeu ``snake'' (que nous avons appelé ``Serpent'') pour aider à maintenir une certaine dextérité chez nos utilisateurs ;
+    \item Un thermomètre qui permet de rappeler à l'utilisateur de boire s'il fait trop chaud (car les personnes âgées ont tendance à oublier cela) ;
+    \item Un prévisionniste de météo extrêmement approximatif basé sur un baromètre qui mesure la pression atmosphérique ;
+    \item Un détecteur de chute, afin de détecter une chute éventuelle de l'utilisateur : un compte à rebours de 5 secondes se déclenche, et si aucune intéraction de l'utilisateur est détectée, active une alarme ;
+    \item Une horloge, avec feedback vocal.
+\end{itemize}
+
+Ces fonctionnalités, bien que comparativement insignifiantes, sont des fonctionnalités qui prouvent être très utiles dans la vie quotidienne d'un utilisateur.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\columnwidth]{snake.png}
+	\caption{Le jeu ``Serpent''}
+\end{figure}
+
+\section{Expérience utilisateur}
+
+Nous avons dirigé beaucoup d'éffort à polir notre interface utilisateur et les graphismes du SeniorThing.
+E.g., quand on veut ajouter un élément à la liste des courses, on peut simplement dire ``Rappelle moi d'acheter 5 poires'' -- ce qui est un langage très naturel -- et le SeniorThing comprendra parfaitement, des dialogues de confirmation empêchent d'accidentellement executer une action destructive, et un feedback visuel est fourni après chaque action, soit sous forme de texte, d'icônes, ou d'animations.
+
+D'autant plus, toutes les actions qui rencontrent une condition d'erreur donnent un explicatif clair, précis, et compréhensible à l'utilisateur, afin qu'il puisse diagnostiquer le problème le plus facilement possible.
+
+D'autres exemples de cet attention aux détails approfondi peuvent être vus partout à travers l'interface :
+
+\begin{itemize}
+    \item Les verbes de beaucoup de commandes vocales peuvent être subsitués par un grand nombre de synonymes ;
+    \item Une fois que le code de la CB débloquée, il ne faut plus la répéter avant que le SeniorThing se redémarre ;
+    \item Chaque aliment qu'on peut ajouter à la liste des courses affiche une image propre à elle ;
+    \item La suppression d'un aliment affiche une animation de ``desintégration'' ;
+    \item On peut réorienter l'écran à l'aide du joystick, et en ce faisant, la rotation de l'écran est animée de manière fluide à l'aide d'une matrice de rotation ;
+    \item Du double-tamponnage permet d'éviter les scintillements sur l'écran ;
+    \item Chaque action affiche une petite icône animée qui la représente (e.g. quand on entre un mot de passe pour la CB, une petite animation d'une serrure qui s'ouvre est affichée) ;
+    \item Le rendu du texte sur l'écran est entièrement géré par nous, ce qui nous a permis d'utiliser une police plus intéressante que celle de base de la SenseHat ;
+    \item Quand il n'y a rien qui se passe, un petit visage est affiché sur l'écran avec des couleurs qui fondent les unes dans les autres grâce à une implémentation de bruit de Perlin.
+\end{itemize}
+
+Comme vous pouvez le voir, nous avons passé beaucoup de temps sur cet aspect du projet.
+C'est un aspect que nous valorisons beaucoup, car c'est ce qui différentie notre produit d'un produit bas-de-gamme.
+C'est aussi ce avec quoi l'utilisateur intéragit, donc avoir une interface visuellement agréable et intéressante et sans frustrations est primordial.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.5\columnwidth]{mic.png}
+	\caption{Icône affichée lorsqu'on commence à parler}
+\end{figure}
+
+\section{Conclusion}
+
+Bien que notre assistant répond à de nombreux problèmes et représente un immense bond en avant pour le monde de la technologie, il est présentement limité par plusieurs aspects.
+L'outil n'est qu'utilisable sur réseau privé -- limitant grandement les possibilités de recueillir des informations externes -- et les parties graphismes et reconnaissance vocale/TTS ne sont pas asynchronées, ce qui fait que l'interface peut être perçue comme un peu lente et les animations longues dès fois.
+
+De plus, notre budget n'est pas assez important pour faire avancer le projet de manière importante. D'où, si ce projet vous parle spécifiquement, nous sommes ouverts à toutes offres de sponsors.
+Si nous voulons agrandir l'envergure de notre projet, nous avons besoin simultanément d'un budget qui s'agrandit de manière proportionnelle.
+
+\end{document}
