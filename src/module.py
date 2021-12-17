@@ -20,10 +20,19 @@ class Module:
 	# sugar around rhasspy
 
 	def say(self, msg):
+		"""
+		Wrapper around Rhasspy's 'text_to_speech' function.
+		"""
+
 		print(f"Say: {msg}")
 		self.rhasspy.text_to_speech(msg)
 
 	def await_speech(self):
+		"""
+		Show microphone animation and await for speech.
+		Wrapper around Rhasspy's 'speech_to_intent' function.
+		"""
+
 		graphics.animation("mic")
 		print("Awaiting speech ...")
 		intent = self.rhasspy.speech_to_intent()
@@ -32,6 +41,11 @@ class Module:
 	# utility functions
 
 	def confirm(self, msg = "Veuillez confirmer l'action"):
+		"""
+		Ask the user if they're sure they want to execute a certain action.
+		'msg' is the prompt, and we return 'True' on confirmation or 'False' on cancellation.
+		"""
+
 		graphics.animation("question")
 		self.say(msg)
 
@@ -47,10 +61,18 @@ class Module:
 				return False
 
 	def read_user_data(self, file):
+		"""
+		Read a file from the user data directory.
+		"""
+
 		with open(f"{USER_DATA_PATH}{file}", "r") as f:
 			return f.readlines()
 
 	def write_user_data(self, file, data):
+		"""
+		Write a file to the user data directory.
+		"""
+
 		# open with 'w+' mode to create file if it doesn't already exist
 
 		with open(f"{USER_DATA_PATH}{file}", "w+") as f:
